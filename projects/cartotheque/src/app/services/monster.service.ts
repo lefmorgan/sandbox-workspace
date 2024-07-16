@@ -36,28 +36,32 @@ export class MonsterService {
     this.monsters = [];
 
     const monster1 = new Monster();
+    monster1.id = this.currentId++;
     monster1.name = 'Pik';
     monster1.hp = 40;
-    monster1.figureCaption = 'N°002 Pik';
+    monster1.figureCaption = 'N°001 Pik';
     this.monsters.push(monster1);
 
     const monster2 = new Monster();
+    monster2.id = this.currentId++;
     monster2.name = 'Cara';
     monster2.image = 'assets/img/pokemon/cara.png';
     monster2.type = MonsterType.WATER;
     monster2.hp = 60;
-    monster2.figureCaption = 'N°003 Cara';
+    monster2.figureCaption = 'N°002 Cara';
     this.monsters.push(monster2);
 
     const monster3 = new Monster();
+    monster3.id = this.currentId++;
     monster3.name = 'Bulb';
     monster3.image = 'assets/img/pokemon/bulby.png';
     monster3.type = MonsterType.PLANT;
     monster3.hp = 60;
-    monster3.figureCaption = 'N°004 Bulb';
+    monster3.figureCaption = 'N°003 Bulb';
     this.monsters.push(monster3);
 
     const monster4 = new Monster();
+    monster4.id = this.currentId++;
     monster4.name = 'Sala';
     monster4.image = 'assets/img/pokemon/sala.png';
     monster4.type = MonsterType.FIRE;

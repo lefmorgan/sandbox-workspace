@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, model, output } from '@angular/
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-search-bar',
+  selector: 'mco-search-bar',
   standalone: true,
   imports: [FormsModule],
   templateUrl: './search-bar.component.html',

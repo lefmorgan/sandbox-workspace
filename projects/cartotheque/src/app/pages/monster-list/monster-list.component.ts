@@ -4,16 +4,18 @@ import { SearchBarComponent } from '../../components/search-bar/search-bar.compo
 import { CommonModule } from '@angular/common';
 import { MonsterService } from '../../services/monster.service';
 import { Monster } from '../../models/monster.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'mco-monster-list',
   standalone: true,
   imports: [PlayingCardComponent, SearchBarComponent, CommonModule],
   templateUrl: './monster-list.component.html',
-  styleUrl: './monster-list.component.scss'
+  styleUrl: './monster-list.component.scss',
 })
 export class MonsterListComponent {
-  monsterService = inject(MonsterService);
+  private monsterService = inject(MonsterService);
+  private router = inject(Router);
 
   monsters = signal<Monster[]>([]);
   search = model('');
@@ -28,9 +30,11 @@ export class MonsterListComponent {
     this.monsters.set(this.monsterService.getAll());
   }
 
-  addGenericMonster() {
-    const monster = new Monster();
-    this.monsterService.add(monster);
-    this.monsters.set(this.monsterService.getAll());
+  addMonster() {
+    this.router.navigate(['monster']);
+  }
+
+  openMonster(monster: Monster): void {
+    this.router.navigate(['monster', monster.id]);
   }
 }

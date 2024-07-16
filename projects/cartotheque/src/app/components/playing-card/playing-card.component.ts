@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, InputSignal, SimpleChanges, computed, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { Monster } from '../../models/monster.model';
 import { MonsterTypeProperties } from '../../utils/monster.utils';
 
 @Component({
-  selector: 'app-playing-card',
+  selector: 'mco-playing-card',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './playing-card.component.html',
