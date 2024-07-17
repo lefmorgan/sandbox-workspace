@@ -1,6 +1,9 @@
 export interface Boardgame {
-    nom: string;
-    dateSortie: Date
+    rank: number;
+    gameId: number;
+    name: string;
+    thumbnail: string;
+    yearPublished: number
 }
 
 export type Boardgames = Boardgame[];

@@ -1,1 +1,15 @@
-<p>table-boardgames works!</p>
+<h2>{{title()}}</h2>
+<table>
+    <tbody>
+        @for (boardGame of items(); track boardGame.name) {
+            <tr>
+                <td>
+                    {{boardGame.name}}
+                </td>
+                <td>
+                    {{boardGame.yearPublished}}
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

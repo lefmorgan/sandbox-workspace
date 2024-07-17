@@ -1,1 +1,8 @@
 <p>list-games works!</p>
+
+@if(boardgame$$(); as boardGameList) {
+<mbg-table-boardgames
+  title="Les boardgames les plus tendance !"
+  [items]="boardGameList"
+/>
+}
