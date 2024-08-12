@@ -6,11 +6,16 @@ import { MonsterType } from '../../utils/monster.utils';
 import { PlayingCardComponent } from '../../components/playing-card/playing-card.component';
 import { Monster } from '../../models/monster.model';
 import { MonsterService } from '../../services/monster.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteMonsterConfirmationDialogComponent } from '../../components/delete-monster-confirmation-dialog/delete-monster-confirmation-dialog.component';
 
 @Component({
   selector: 'mco-monster',
   standalone: true,
-  imports: [ReactiveFormsModule, PlayingCardComponent],
+  imports: [ReactiveFormsModule, PlayingCardComponent, MatButtonModule, MatInputModule, MatSelectModule],
   templateUrl: './monster.component.html',
   styleUrl: './monster.component.scss',
 })
@@ -19,6 +24,7 @@ export class MonsterComponent {
   private fb = inject(FormBuilder);
   private monsterService = inject(MonsterService)
   private router = inject(Router);
+	private readonly dialog = inject(MatDialog);
 
 
   private routeSubscription: Subscription | null = null;
@@ -89,6 +95,16 @@ export class MonsterComponent {
         });
       };
     }
+  }
+
+  deleteMonster() {
+    const dialogRef = this.dialog.open(DeleteMonsterConfirmationDialogComponent);
+		dialogRef.afterClosed().subscribe(confirmation => {
+			if (confirmation) {
+				this.monsterService.delete(this.monsterId);
+				this.navigateBack();
+			}
+		})
   }
 
   navigateBack() {

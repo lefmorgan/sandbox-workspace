@@ -319,6 +319,7 @@
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "projects/cartotheque/src/styles.scss"
             ],
             "scripts": []
@@ -378,6 +379,7 @@
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "projects/cartotheque/src/styles.scss"
             ],
             "scripts": []
