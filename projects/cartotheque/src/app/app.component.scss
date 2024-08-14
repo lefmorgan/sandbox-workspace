@@ -1,8 +1,20 @@
 
 
 div {
-	font-family: Roboto, sans-serif;
-	min-height: 100vh;
+    padding: 50px 0px;
 	background: linear-gradient(45deg, rgb(252, 228, 252), rgb(218, 228, 255));
-    padding: 1rem;
+    height: 100vh;
+}
+
+mat-toolbar {
+	display: flex;
+	align-items: center;
+	padding: 0 20px;
+	position: absolute;
+	top: 0px
+}
+
+mat-toolbar p {
+	flex-grow: 1;
+	margin: 0;
 }
