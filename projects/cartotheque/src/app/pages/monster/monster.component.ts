@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { filter, of, Subscription, switchMap } from 'rxjs';
 import { MonsterType } from '../../utils/monster.utils';
 import { PlayingCardComponent } from '../../components/playing-card/playing-card.component';
 import { Monster } from '../../models/monster.model';
@@ -15,96 +15,120 @@ import { DeleteMonsterConfirmationDialogComponent } from '../../components/delet
 @Component({
   selector: 'mco-monster',
   standalone: true,
-  imports: [ReactiveFormsModule, PlayingCardComponent, MatButtonModule, MatInputModule, MatSelectModule],
+  imports: [
+    ReactiveFormsModule,
+    PlayingCardComponent,
+    MatButtonModule,
+    MatInputModule,
+    MatSelectModule,
+  ],
   templateUrl: './monster.component.html',
   styleUrl: './monster.component.scss',
 })
 export class MonsterComponent {
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
-  private monsterService = inject(MonsterService)
+  private monsterService = inject(MonsterService);
   private router = inject(Router);
-	private readonly dialog = inject(MatDialog);
-
+  private readonly dialog = inject(MatDialog);
 
   private routeSubscription: Subscription | null = null;
   private formValuesSubscription: Subscription | null = null;
+  private saveSubscription: Subscription | null = null;
+  private deleteSubscription: Subscription | null = null;
 
 
- 	formGroup = this.fb.group({
- 		name: ['', [Validators.required]],
- 		image: ['', [Validators.required]],
- 		type: [MonsterType.ELECTRIC, [Validators.required]],
- 		hp: [0, [Validators.required, Validators.min(1), Validators.max(200)]],
- 		figureCaption: ['', [Validators.required]],
- 		attackName: ['', [Validators.required]],
- 		attackStrength: [0, [Validators.required, Validators.min(1), Validators.max(200)]],
- 		attackDescription: ['', [Validators.required]]
- 	});
+  formGroup = this.fb.group({
+    name: ['', [Validators.required]],
+    image: ['', [Validators.required]],
+    type: [MonsterType.ELECTRIC, [Validators.required]],
+    hp: [0, [Validators.required, Validators.min(1), Validators.max(200)]],
+    figureCaption: ['', [Validators.required]],
+    attackName: ['', [Validators.required]],
+    attackStrength: [
+      0,
+      [Validators.required, Validators.min(1), Validators.max(200)],
+    ],
+    attackDescription: ['', [Validators.required]],
+  });
 
   monster: Monster = Object.assign(new Monster(), this.formGroup.value);
   monsterTypes = Object.values(MonsterType);
   monsterId = -1;
-  
-  ngOnInit(): void {
-    this.formValuesSubscription = this.formGroup.valueChanges.subscribe(data => {
-      this.monster = Object.assign(new Monster(), data);
-    });
 
-    this.routeSubscription = this.route.params.subscribe((params) => {
-      if (params['id']) {
-        this.monsterId = parseInt(params['id']);
-        const monsterFound = this.monsterService.get(this.monsterId);
-        if (monsterFound) {
-          this.monster = monsterFound;
-          this.formGroup.patchValue(this.monster)
-        }
+  ngOnInit(): void {
+    this.formValuesSubscription = this.formGroup.valueChanges.subscribe(
+      (data) => {
+        this.monster = Object.assign(new Monster(), data);
       }
-    });
+    );
+    this.routeSubscription = this.route.params
+      .pipe(
+        switchMap((params) => {
+          if (params['id']) {
+            this.monsterId = parseInt(params['id']);
+            return this.monsterService.get(this.monsterId);
+          }
+          return of(null);
+        })
+      )
+      .subscribe((monster) => {
+        if (monster) {
+          this.monster = monster;
+          this.formGroup.patchValue(this.monster);
+        }
+      });
   }
 
   ngOnDestroy(): void {
     this.formValuesSubscription?.unsubscribe();
-
     this.routeSubscription?.unsubscribe();
+    this.deleteSubscription?.unsubscribe();
+    this.saveSubscription?.unsubscribe();
   }
 
-	submit(event: Event) {
+  submit(event: Event) {
     event.preventDefault();
-    if( this.monsterId === -1) {
-      this.monsterService.add(this.monster)
+    let saveOservable = null;
+    if (this.monsterId === -1) {
+      saveOservable = this.monsterService.add(this.monster);
     } else {
       this.monster.id = this.monsterId;
-      this.monsterService.update(this.monster)
+      saveOservable = this.monsterService.update(this.monster);
     }
-    this.navigateBack()
+    this.saveSubscription = saveOservable.subscribe(_ => {
+      this.navigateBack();
+    })
   }
 
   isFieldValid(fieldName: string) {
     const formControl = this.formGroup.get(fieldName);
-   return formControl?.invalid && ( formControl?.dirty || formControl?.touched );
+    return formControl?.invalid && (formControl?.dirty || formControl?.touched);
   }
 
   onFileChange(event: any) {
     const reader = new FileReader();
-    if(event.target.files && event.target.files.length) {
+    if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
-      reader.readAsDataURL(file); reader.onload = () => {
+      reader.readAsDataURL(file);
+      reader.onload = () => {
         this.formGroup.patchValue({
-          image: reader.result as string
+          image: reader.result as string,
         });
       };
     }
   }
 
   deleteMonster() {
-    const dialogRef = this.dialog.open(DeleteMonsterConfirmationDialogComponent);
-		dialogRef.afterClosed().subscribe(confirmation => {
-			if (confirmation) {
-				this.monsterService.delete(this.monsterId);
-				this.navigateBack();
-			}
-		})
+    const dialogRef = this.dialog.open(
+      DeleteMonsterConfirmationDialogComponent
+    );
+    dialogRef.afterClosed().pipe(
+      filter(confirmation => confirmation),
+      switchMap(_ => this.monsterService.delete(this.monsterId))
+    ).subscribe((confirmation) => {
+        this.navigateBack();
+    });
   }
 
   navigateBack() {

@@ -13,7 +13,7 @@ export interface LoginCredentials {
 })
 export class LoginService {
 
-  // backend : .venv/Scripts/activate  puis  python manage.py runserver 0.0.0.0:8000
+  // backend : \dev\python\playing_cards_backend .venv/Scripts/activate  puis  python manage.py runserver 0.0.0.0:8000
 
   private http = inject(HttpClient);
   private BASE_URL = 'http://localhost:8000';

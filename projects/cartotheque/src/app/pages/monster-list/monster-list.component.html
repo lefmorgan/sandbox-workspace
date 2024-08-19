@@ -1,7 +1,6 @@
 <mco-search-bar [(search)]="search" ></mco-search-bar>
  <div id="card-list">
  	@for (monster of filteredMonsters(); track monster; let monsterIndex = $index) {
- 		<div> Index: {{monsterIndex}}</div>
  		<mco-playing-card [monster]="monster" (click)="openMonster(monster)"/>
  	} @empty {
  		<div class="centered">No monsters found !</div>
@@ -10,4 +9,4 @@
  @if (filteredMonsters().length > 0) {
  	<div class="centered">Found {{filteredMonsters().length}} monsters</div>
  }
- <div class="centered"><button (click)="addMonster()">Add Monster</button></div><br/><br/>
+ <div class="centered"><button mat-flat-button (click)="addMonster()">Add Monster</button></div><br/><br/>
