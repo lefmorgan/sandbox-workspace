@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  NgZone,
   provideExperimentalZonelessChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
@@ -20,6 +21,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     // firebase
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)), provideFirestore(() => getFirestore()),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideFirestore(() => getFirestore()), provideAnimationsAsync(),
+   // { provide: NgZone, useFactory: () => new NgZone({ enableLongStackTrace: false }) }
+
   ],
 };

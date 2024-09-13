@@ -1,7 +1,8 @@
-import { Component, output } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { Router } from '@angular/router';
 
 const MATERIAL_MODULES = [MatToolbarModule, MatIconModule, MatButtonModule]
 @Component({
@@ -13,7 +14,14 @@ const MATERIAL_MODULES = [MatToolbarModule, MatIconModule, MatButtonModule]
 })
 export class ToolbarComponent {
 
+  private readonly router = inject(Router)
+  
   onNewBoardgameEvent = output<void>();
+
+  goToUrl(url: string): void {
+    this.router.navigate([url])
+  }
+
   emitClick(): void {
     this.onNewBoardgameEvent.emit();
   }

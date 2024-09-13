@@ -1,5 +1,8 @@
-<mbg-toolbar (onNewBoardgameEvent)="onClickNewBoardgame()"/>
-
-<router-outlet />
-onNewBordgameEvent
-onNewBoardgameEvent
+<section>
+  <mbg-toolbar (onNewBoardgameEvent)="onClickNewBoardgame()" />
+  <mat-card>
+    <mat-card-content>
+      <router-outlet />
+    </mat-card-content>
+  </mat-card>
+</section>

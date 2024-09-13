@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, isDevMode } from '@angular/core';
-import { catchError, Observable } from 'rxjs';
+import { catchError, from, Observable } from 'rxjs';
 import { Boardgames } from '../models/boardgame';
 import { GetAll } from '../../../core/custome-types';
+import { collectionData, Firestore, collection, addDoc } from '@angular/fire/firestore';
 
 
 
@@ -30,4 +31,22 @@ export class BoardgamesService implements GetAllBoardgames {
       })
     )
   }
+
+
+private readonly firestore = inject(Firestore);
+testCollection = collection(this.firestore, 'tutu')
+
+getAllT(): Observable<any> {
+  return collectionData(this.testCollection, {
+    id:'id'
+  }) as Observable<any[]>
+}
+
+add(text: string): Observable<string> {
+  const create = { text, isCompleted: false};
+  const promise = addDoc(this.testCollection, create).then(
+    (response) => response.id
+  );
+  return from(promise);
+}
 }

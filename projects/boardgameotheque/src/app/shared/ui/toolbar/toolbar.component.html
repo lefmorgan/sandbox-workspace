@@ -1,10 +1,10 @@
 <mat-toolbar color="primary">
-  <a mat-button routerlink="/">
+  <a mat-button (click)="goToUrl('')">
     <mat-icon>home</mat-icon>
     <span>Home</span>
   </a>
 
-  <a mat-button routerlink="/boardgames">
+  <a mat-button (click)="goToUrl('boardgames')">
     <mat-icon>list_alt</mat-icon>
     <span>Boardgames</span>
   </a>
@@ -13,4 +13,10 @@
     <mat-icon>add_box</mat-icon>
     <span>New</span>
   </a>
+
+
+
 </mat-toolbar>
+
+
+

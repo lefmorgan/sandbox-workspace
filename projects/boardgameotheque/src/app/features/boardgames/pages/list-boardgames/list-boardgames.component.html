@@ -1,1 +1,5 @@
-<p>list-boardgames works!</p>
+<section>
+    @if(data) {
+        <mbg-table [displayedColumns]="displayedColumns" [data]="data" [sortableColumns]="displayedColumns"/>
+    }
+</section>
