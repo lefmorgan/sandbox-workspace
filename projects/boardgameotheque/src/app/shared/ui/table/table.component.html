@@ -29,14 +29,14 @@
               <button
                 mat-icon-button
                 color="primary"
-                (click)="openEditForm()"
+                (click)="openEditForm(element)"
               >
                 <mat-icon>edit</mat-icon>
               </button>
               <button
                 mat-icon-button
                 color="warn"
-                (click)="deleteContact()"
+                (click)="deleteContact(element.id)"
               >
                 <mat-icon>delete</mat-icon>
               </button>

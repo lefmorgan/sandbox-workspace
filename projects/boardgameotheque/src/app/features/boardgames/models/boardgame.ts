@@ -5,7 +5,8 @@ export interface Boardgame {
     gameId: string;
     name: string;
     thumbnail: string;
-    yearPublished: number
+    yearPublished: number;
+    action: string;
     created: Timestamp;
     updated: Timestamp;
 }

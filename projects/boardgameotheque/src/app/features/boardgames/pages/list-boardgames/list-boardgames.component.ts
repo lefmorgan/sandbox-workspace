@@ -37,7 +37,7 @@ const ELEMENT_DATA: any[] = [
 })
 export class ListBoardgamesComponent implements OnInit {
   data! : Boardgames;
-  displayedColumns: ColumnKeys<Boardgame> = ['rank', 'thumbnail', 'name', 'yearPublished'];
+  displayedColumns: ColumnKeys<Boardgame> = ['rank', 'thumbnail', 'name', 'yearPublished', 'action'];
   sortables: ColumnKeys<Boardgame> = ['rank', 'name', 'yearPublished'];
 
   private readonly _boardgamesService = inject(BoardgamesService);

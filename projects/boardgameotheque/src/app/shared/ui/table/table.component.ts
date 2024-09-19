@@ -1,11 +1,16 @@
-import { Component, effect, input, OnInit, signal, viewChild } from '@angular/core';
+import { Component, effect, inject, input, OnInit, signal, viewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { FilterComponent } from './filter/filter.component';
 import { MatIconModule } from '@angular/material/icon';
+import { APP_CONST } from '../../../core/constantes';
+import { BoardgamesService } from '../../../features/boardgames/services/boardgames.service';
+import { ModalService } from '../modal/modal.service';
+import { ModalComponent } from '../modal/modal/modal.component';
+import { MatButtonModule } from '@angular/material/button';
 
-const MATERIAL_MODULES = [MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule]
+const MATERIAL_MODULES = [MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule, MatButtonModule,]
 @Component({
   selector: 'mbg-table',
   standalone: true,
@@ -23,6 +28,8 @@ export class TableComponent<T> implements OnInit {
   valueToFilter = signal('');
   private readonly _sort = viewChild.required<MatSort>(MatSort);
   private readonly _paginator = viewChild.required<MatPaginator>(MatPaginator);
+  private readonly _boardgamesService = inject(BoardgamesService);
+  private readonly _modalService = inject(ModalService);
 
   constructor() {
     effect(() => {
@@ -44,6 +51,14 @@ export class TableComponent<T> implements OnInit {
     this.dataSource.paginator = this._paginator()
   }
 
-  openEditForm() {}
-  deleteContact() {}
+  openEditForm(data: T): void {
+    this._modalService.openModal<ModalComponent, T>(ModalComponent, data, true);
+  }
+  deleteContact(id: string): void {
+    const confirmation = confirm(APP_CONST.MESSAGES.BOARDGAME_PROMPT);
+    
+    if (confirmation) {
+      this._boardgamesService.deleteBoardGame(id);
+    }
+  }
 }
