@@ -15,25 +15,33 @@
         <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
         }
 
-        <td mat-cell *matCellDef="let element">
-          {{ element[column] }}
-          @if(column === 'action'){
-          <button
-            mat-icon-button
-            color="primary"
-            (click)="openEditForm()"
-          >
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button
-            mat-icon-button
-            color="warn"
-            (click)="deleteContact()"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-          }
-        </td>
+          <!-- Cellules du tableau -->
+          <td mat-cell *matCellDef="let element">
+            <!-- Affichage spécifique pour la colonne 'thumbnail' -->
+            @if(column === 'thumbnail') {
+              <img [src]="element.thumbnail" alt="{{ element.name }}" style="width: 50px; height: auto;" />
+            } @else {
+              {{ element[column] }}
+            }
+
+            <!-- Colonne 'action' avec les boutons -->
+            @if(column === 'action') {
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="openEditForm()"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="deleteContact()"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
+          </td>
       </ng-container>
       }
 

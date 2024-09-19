@@ -2,4 +2,7 @@
     @if(data) {
         <mbg-table [displayedColumns]="displayedColumns" [data]="data" [sortableColumns]="displayedColumns"/>
     }
+    @else {
+        <p>Aucun jeu de société disponible pour le moment.</p>
+    }
 </section>

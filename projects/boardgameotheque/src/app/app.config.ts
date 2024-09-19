@@ -23,7 +23,6 @@ export const appConfig: ApplicationConfig = {
     // firebase
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()), provideAnimationsAsync(),
-   // { provide: NgZone, useFactory: () => new NgZone({ enableLongStackTrace: false }) }
 
   ],
 };

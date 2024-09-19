@@ -1,7 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { TableComponent } from '../../../../shared/ui/table/table.component';
-import { Boardgame } from '../../models/boardgame';
+import { Boardgame, Boardgames } from '../../models/boardgame';
 import { ColumnKeys } from '../../../../core/custome-types';
+import { BoardgamesService } from '../../services/boardgames.service';
+import { tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const ELEMENT_DATA: any[] = [
   { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
@@ -32,9 +35,23 @@ const ELEMENT_DATA: any[] = [
   templateUrl: './list-boardgames.component.html',
   styleUrl: './list-boardgames.component.scss'
 })
-export class ListBoardgamesComponent {
-  data! : Boardgame[];
-  displayedColumns: ColumnKeys<Boardgame> = ['rank','gameId', 'name', 'thumbnail', 'yearPublished'];
+export class ListBoardgamesComponent implements OnInit {
+  data! : Boardgames;
+  displayedColumns: ColumnKeys<Boardgame> = ['rank', 'thumbnail', 'name', 'yearPublished'];
   sortables: ColumnKeys<Boardgame> = ['rank', 'name', 'yearPublished'];
 
+  private readonly _boardgamesService = inject(BoardgamesService);
+  private readonly _destroyRef = inject(DestroyRef);
+
+  ngOnInit(): void {
+    this.getAllBoardgames()
+  }
+
+   getAllBoardgames() {
+     this._boardgamesService.getAllBoardGames().pipe(
+       takeUntilDestroyed(this._destroyRef),
+       tap((boardgames: Boardgames) => this.data = [...boardgames]),
+     )
+     .subscribe()
+   }
 }
