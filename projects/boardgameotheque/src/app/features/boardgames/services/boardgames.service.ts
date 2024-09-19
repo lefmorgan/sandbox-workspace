@@ -17,7 +17,7 @@ import {
   updateDoc,
   deleteDoc,
 } from '@angular/fire/firestore';
-import { APP_CONST } from '../../../core/custome-types/constantes';
+import { APP_CONST } from '../../../core/constantes';
 
 export interface GetAllBoardgames extends GetAll<Boardgames> {
   getAll(): Observable<Boardgames>;

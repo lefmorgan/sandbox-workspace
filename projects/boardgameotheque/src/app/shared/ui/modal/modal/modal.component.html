@@ -1,0 +1,36 @@
+<div mat-dialog-title>
+    <h1>jeu de société</h1>
+  </div>
+  <form [formGroup]="boardgameForm" (ngSubmit)="onSubmit()">
+    <div mat-dialog-content class="content">
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>
+            Name
+          </mat-label>
+          <input matInput type="text" formControlName="name">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>
+            Thumbnail
+          </mat-label>
+          <input matInput type="text" formControlName="thumbnail">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>
+            YearPublished
+          </mat-label>
+          <input matInput type="text" formControlName="yearPublished">
+        </mat-form-field>
+      </div>
+    </div>
+    <div mat-dialog-actions class="action">
+      <button mat-raised-button [mat-dialog-close]="false" type="button">Cancel</button>
+      <button [disabled]="!boardgameForm.valid" mat-raised-button color="primary" type="submit">{{getTitle()}}</button>
+    </div>
+  
+  </form>

@@ -1,6 +1,6 @@
-export interface Boardgame {
+export interface User {
     userId: number;
     name: string;
 }
 
-export type Boardgames = Boardgame[];
+export type Users = User[];
