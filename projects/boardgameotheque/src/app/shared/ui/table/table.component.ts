@@ -9,6 +9,7 @@ import { BoardgamesService } from '../../../features/boardgames/services/boardga
 import { ModalService } from '../modal/modal.service';
 import { ModalComponent } from '../modal/modal/modal.component';
 import { MatButtonModule } from '@angular/material/button';
+import { SnackBarService } from '../../services/snack-bar.service';
 
 const MATERIAL_MODULES = [MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule, MatButtonModule,]
 @Component({
@@ -30,6 +31,8 @@ export class TableComponent<T> implements OnInit {
   private readonly _paginator = viewChild.required<MatPaginator>(MatPaginator);
   private readonly _boardgamesService = inject(BoardgamesService);
   private readonly _modalService = inject(ModalService);
+  private readonly _snackBarService = inject(SnackBarService);
+
 
   constructor() {
     effect(() => {
@@ -59,6 +62,8 @@ export class TableComponent<T> implements OnInit {
     
     if (confirmation) {
       this._boardgamesService.deleteBoardGame(id);
+      this._snackBarService.showSnackBar(APP_CONST.MESSAGES.BOARDGAME_DELETED);
+
     }
   }
 }

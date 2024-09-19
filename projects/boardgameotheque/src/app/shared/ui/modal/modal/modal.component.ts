@@ -7,6 +7,7 @@ import { MatInput } from '@angular/material/input';
 import { BoardgamesService } from '../../../../features/boardgames/services/boardgames.service';
 import { ModalService } from '../modal.service';
 import { APP_CONST } from '../../../../core/constantes';
+import { SnackBarService } from '../../../services/snack-bar.service';
 
 const MATERIAL_MODULES = [MatLabel, MatFormField, MatInput, MatDialogModule, MatButtonModule]
 
@@ -25,6 +26,7 @@ export class ModalComponent implements OnInit {
   private readonly _matDialog = inject(MAT_DIALOG_DATA);
   private readonly _boardgamesService = inject(BoardgamesService);
   private readonly _modalService = inject(ModalService);
+  private readonly _snackBarService = inject(SnackBarService);
 
   ngOnInit(): void {
     this._buildForm();
@@ -42,6 +44,7 @@ export class ModalComponent implements OnInit {
       await this._boardgamesService.newBoardgame(boardgame);
       message = APP_CONST.MESSAGES.BOARDGAME_ADDED;
     }
+    this._snackBarService.showSnackBar(message);
     this._modalService.closeModal();
   }
 
