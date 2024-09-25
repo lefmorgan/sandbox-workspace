@@ -1,8 +1,14 @@
 <section>
-  <mbg-toolbar (onNewBoardgameEvent)="onClickNewBoardgame()" />
   <mat-card>
     <mat-card-content>
-      <router-outlet />
+      @defer {
+        <mbg-toolbar (onNewBoardgameEvent)="onClickNewBoardgame()" />
+        <router-outlet />
+      }@loading(minimum 1s) {
+        <div class="spinner-container">
+          <mat-spinner mode="indeterminate"></mat-spinner>
+        </div>
+      }
     </mat-card-content>
   </mat-card>
 </section>

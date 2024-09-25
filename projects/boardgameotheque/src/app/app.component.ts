@@ -4,8 +4,9 @@ import { ToolbarComponent } from './shared/ui/toolbar/toolbar.component';
 import { MatCardModule } from '@angular/material/card';
 import { ModalService } from './shared/ui/modal/modal.service';
 import { ModalComponent } from './shared/ui/modal/modal/modal.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
-const MATERIAL_MODULES = [MatCardModule] 
+const MATERIAL_MODULES = [MatCardModule, MatProgressSpinnerModule] 
 
 @Component({
   selector: 'app-root',
