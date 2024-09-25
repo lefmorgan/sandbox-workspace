@@ -36,7 +36,7 @@ const ELEMENT_DATA: any[] = [
   styleUrl: './list-boardgames.component.scss'
 })
 export class ListBoardgamesComponent implements OnInit {
-  data! : Boardgames;
+  boardgames= signal<Boardgames>([]);
   displayedColumns: ColumnKeys<Boardgame> = ['rank', 'thumbnail', 'name', 'yearPublished', 'action'];
   sortables: ColumnKeys<Boardgame> = ['rank', 'name', 'yearPublished'];
 
@@ -50,7 +50,7 @@ export class ListBoardgamesComponent implements OnInit {
    getAllBoardgames() {
      this._boardgamesService.getAllBoardGames().pipe(
        takeUntilDestroyed(this._destroyRef),
-       tap((boardgames: Boardgames) => this.data = [...boardgames]),
+       tap((boardgames: Boardgames) => this.boardgames.set(boardgames)),
      )
      .subscribe()
    }

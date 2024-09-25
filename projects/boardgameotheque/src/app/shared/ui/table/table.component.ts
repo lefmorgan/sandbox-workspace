@@ -57,6 +57,11 @@ export class TableComponent<T> implements OnInit {
   openEditForm(data: T): void {
     this._modalService.openModal<ModalComponent, T>(ModalComponent, data, true);
   }
+
+  selectedRow(data: T): void {
+    this.openEditForm(data);
+  }
+
   deleteContact(id: string): void {
     const confirmation = confirm(APP_CONST.MESSAGES.BOARDGAME_PROMPT);
     

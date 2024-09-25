@@ -1,8 +1,5 @@
 <section>
-    @if(data) {
-        <mbg-table [displayedColumns]="displayedColumns" [data]="data" [sortableColumns]="displayedColumns"/>
-    }
-    @else {
-        <p>Aucun jeu de société disponible pour le moment.</p>
-    }
+
+    <mbg-table [displayedColumns]="displayedColumns" [data]="boardgames()" [sortableColumns]="displayedColumns"/>
+
 </section>
