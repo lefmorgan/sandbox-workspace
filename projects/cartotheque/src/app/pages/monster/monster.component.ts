@@ -89,14 +89,14 @@ export class MonsterComponent {
 
   submit(event: Event) {
     event.preventDefault();
-    let saveOservable = null;
+    let saveObservable = null;
     if (this.monsterId === -1) {
-      saveOservable = this.monsterService.add(this.monster);
+      saveObservable = this.monsterService.add(this.monster);
     } else {
       this.monster.id = this.monsterId;
-      saveOservable = this.monsterService.update(this.monster);
+      saveObservable = this.monsterService.update(this.monster);
     }
-    this.saveSubscription = saveOservable.subscribe(_ => {
+    this.saveSubscription = saveObservable.subscribe(_ => {
       this.navigateBack();
     })
   }
