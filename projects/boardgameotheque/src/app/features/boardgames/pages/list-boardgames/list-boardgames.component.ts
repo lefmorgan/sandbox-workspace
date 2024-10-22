@@ -40,7 +40,7 @@ export class ListBoardgamesComponent implements OnInit {
   displayedColumns: ColumnKeys<Boardgame> = ['rank', 'thumbnail', 'name', 'yearPublished', 'action'];
   sortables: ColumnKeys<Boardgame> = ['rank', 'name', 'yearPublished'];
 
-  private readonly _boardgamesService = inject(BoardgamesService);
+  public readonly _boardgamesService = inject(BoardgamesService);
   private readonly _destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {

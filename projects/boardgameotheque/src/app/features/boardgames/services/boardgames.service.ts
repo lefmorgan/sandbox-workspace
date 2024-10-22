@@ -74,9 +74,19 @@ export class BoardgamesService implements GetAllBoardgames {
     updateDoc(docRef, { ...updatedBoardgame });
   }
 
+  updateItem(id: string, updatedBoardgame: Boardgame): Observable<void> {
+    const docRef = this._getDocRef(id);
+    return from(updateDoc(docRef, { ...updatedBoardgame }));
+  }
+
   deleteBoardGame(id: string): void {
     const docRef = this._getDocRef(id);
     deleteDoc(docRef);
+  }
+
+  deleteItem(id: string): Observable<void> {
+    const docRef = this._getDocRef(id);
+    return from(deleteDoc(docRef));  
   }
 
   private _getDocRef(id: string) {

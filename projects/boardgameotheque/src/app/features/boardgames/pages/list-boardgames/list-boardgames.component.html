@@ -1,5 +1,5 @@
 <section>
 
-    <mbg-table [displayedColumns]="displayedColumns" [data]="boardgames()" [sortableColumns]="displayedColumns"/>
+    <mbg-table [dataService]="_boardgamesService" [displayedColumns]="displayedColumns" [data]="boardgames()" [sortableColumns]="displayedColumns"/>
 
 </section>
