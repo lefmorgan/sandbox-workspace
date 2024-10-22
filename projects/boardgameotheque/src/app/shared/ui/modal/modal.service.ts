@@ -2,6 +2,8 @@ import { ComponentType } from '@angular/cdk/portal';
 import { Injectable, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Boardgame } from '../../../features/boardgames/models/boardgame';
+import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
+import { Observable } from 'rxjs';
 
 
 
@@ -22,6 +24,15 @@ export class ModalService {
 
   closeModal(): void{
     this._dialog.closeAll();
+  }
+
+  confirm(title: string, message: string): Observable<boolean> {
+    const dialogRef = this._dialog.open(ConfirmModalComponent, {
+      width: '400px',
+      data: { title, message }
+    });
+
+    return dialogRef.afterClosed(); 
   }
   
 }
